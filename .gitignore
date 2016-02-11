@@ -4,3 +4,5 @@ venv/
 
 # User-specific stuff:
 .idea/
+
+main.py
