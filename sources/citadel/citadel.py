@@ -12,7 +12,11 @@ def generate_links():
         yield node.get('href')
 
 
+def spanless(node):
+    return all(child.tag != 'span' for child in node)
+
+
 def extract_content(html_string):
     tree = html.fromstring(html_string)
-    nodes = tree.cssselect(".entry-content p")
+    nodes = filter(spanless, tree.cssselect(".entry-content p"))
     return b''.join(map(etree.tostring, nodes))
