@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>{{ chapter.title }}</title>
+    </head>
+    <body>
+        <h1>{{ chapter.title }}</h1>
+
+        {{ chapter.text }}
+    </body>
+</html>
