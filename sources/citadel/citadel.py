@@ -1,10 +1,8 @@
-from collections import namedtuple
 import requests
 from lxml import etree, html
-
+from ..tuples import Chapter
 
 HOME_PAGE = 'https://unillustrated.wordpress.com/'
-Chapter = namedtuple('Chapter', ['title', 'text'])
 
 
 def generate_links():
