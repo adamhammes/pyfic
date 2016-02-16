@@ -1,7 +1,7 @@
 import time
 import requests
 from lxml import etree, html
-from ..tuples import Chapter
+from ..tuples import Chapter, Book
 from web import web
 
 HOME_PAGE = 'https://unillustrated.wordpress.com/'
@@ -51,4 +51,4 @@ def get_metadata():
 def make_book():
     pages = web.download_async(generate_links())
     chapters = map(make_chapter, pages)
-    return Chapter(TITLE, get_id(), get_metadata(), chapters)
+    return Book(TITLE, get_id(), get_metadata(), chapters)
