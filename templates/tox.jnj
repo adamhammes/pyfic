@@ -17,7 +17,7 @@
             <navLabel>
                 <text>{{ chapter.title }}</text>
             </navLabel>
-            <content src="content/Chapter{{ loop.index }}".html/>
+            <content src="content/Chapter{{ loop.index }}.html"/>
         </navPoint>
     {% endfor %}
     </navMap>
