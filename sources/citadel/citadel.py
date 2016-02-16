@@ -41,7 +41,7 @@ def make_chapter(html_string):
 
 def get_id():
     time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
-    return TITLE + ' ' + time_str
+    return '{0} {1}'.format(TITLE, time_str)
 
 
 def get_metadata():
