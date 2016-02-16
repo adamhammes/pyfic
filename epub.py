@@ -20,7 +20,6 @@ def main(env):
             file_name = 'OEBPS/content/Chapter{0}.html'.format(i + 1)
             file.writestr(file_name, html)
 
-
 if __name__ == '__main__':
     environment = Environment(loader=FileSystemLoader('templates'))
     main(environment)
