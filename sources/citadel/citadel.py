@@ -10,6 +10,8 @@ LINK_SELECTOR = '#linkcat-283635721 a'
 CONTENT_SELECTOR = '.entry-content p'
 TITLE_SELECTOR = '.entry-title'
 
+METADATA = {}
+
 
 def generate_links():
     page = requests.get(HOME_PAGE)
@@ -44,11 +46,7 @@ def get_id():
     return '{0} {1}'.format(TITLE, time_str)
 
 
-def get_metadata():
-    return {}
-
-
 def make_book():
     pages = web.download_async(generate_links())
     chapters = [make_chapter(page) for page in pages]
-    return Book(TITLE, get_id(), 'en-US', get_metadata(), chapters)
+    return Book(TITLE, get_id(), 'en-US', METADATA, chapters)
