@@ -18,12 +18,12 @@ def generate_links():
         yield node.get('href')
 
 
-def spanless(node):
+def _spanless(node):
     return all(child.tag != 'span' for child in node)
 
 
 def extract_content(tree):
-    nodes = filter(spanless, tree.cssselect(CONTENT_SELECTOR))
+    nodes = filter(_spanless, tree.cssselect(CONTENT_SELECTOR))
     raw_bytes = b''.join(map(etree.tostring, nodes))
     return str(raw_bytes, encoding='UTF-8')
 
