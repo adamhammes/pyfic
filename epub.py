@@ -16,7 +16,7 @@ def main(env):
         file.writestr('OEBPS/toc.ncx', tox_ncx)
 
         for i, chapter in enumerate(book.chapters):
-            html = env.get_template('html.jnj').render(chapter=chapter)
+            html = env.get_template('xhtml.jnj').render(chapter=chapter)
             file_name = 'OEBPS/content/Chapter{0}.html'.format(i + 1)
             file.writestr(file_name, html)
 
