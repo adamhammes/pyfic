@@ -5,6 +5,7 @@
     <metadata>
         <dc:title>{{ book.title }}</dc:title>
         <dc:identifier id="bookid">{{ book.id }}</dc:identifier>
+        <dc:language>{{ book.language }}</dc:language>
     {% for name, value in book.meta %}
         <dc:{{ name }}>{{ value }}</dc:>
     {% endfor %}

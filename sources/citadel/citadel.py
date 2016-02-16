@@ -51,4 +51,4 @@ def get_metadata():
 def make_book():
     pages = web.download_async(generate_links())
     chapters = [make_chapter(page) for page in pages]
-    return Book(TITLE, get_id(), get_metadata(), chapters)
+    return Book(TITLE, get_id(), 'en-US', get_metadata(), chapters)
