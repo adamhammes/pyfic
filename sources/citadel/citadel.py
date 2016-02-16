@@ -10,7 +10,9 @@ LINK_SELECTOR = '#linkcat-283635721 a'
 CONTENT_SELECTOR = '.entry-content p'
 TITLE_SELECTOR = '.entry-title'
 
-METADATA = {}
+METADATA = {
+    'author': 'Unillustrated'
+}
 
 
 def generate_links():
