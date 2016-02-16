@@ -1,5 +1,5 @@
 from zipfile import ZipFile
-from sources.citadel import citadel
+from sources import citadel
 from jinja2 import Environment, FileSystemLoader
 
 

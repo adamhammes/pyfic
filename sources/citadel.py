@@ -1,7 +1,7 @@
 import time
 import requests
 from lxml import etree, html
-from ..tuples import Chapter, Book
+from tuples import Chapter, Book
 from web import web
 
 HOME_PAGE = 'https://unillustrated.wordpress.com/'
