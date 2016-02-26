@@ -28,7 +28,6 @@ def extract_content(page):
 
 
 def get_title(tree):
-    print(_canonical_url(tree))
     return tree.cssselect('#profile_top > b')[0].text
 
 
