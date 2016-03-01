@@ -1,11 +1,11 @@
 from zipfile import ZipFile
-from sources import citadel
+from sources import citadel, fanfictiondotnet
 from jinja2 import Environment, FileSystemLoader
 
 
-def main(env):
-    book = citadel.make_book()
-    with ZipFile('citadel.epub', 'w') as file:
+def write_epub(book, title):
+    env = Environment(loader=FileSystemLoader('templates'))
+    with ZipFile(title, 'w') as file:
         file.write('templates/mimetype', 'mimetype')
         file.write('templates/container.xml', 'META-INF/container.xml')
 
@@ -20,6 +20,11 @@ def main(env):
             file_name = 'OEBPS/content/Chapter{0}.html'.format(i + 1)
             file.writestr(file_name, html)
 
+
+def main():
+    book = fanfictiondotnet.make_book('https://www.fanfiction.net/s/2636963/2')
+    write_epub(book, 'fanfction.epub')
+
+
 if __name__ == '__main__':
-    environment = Environment(loader=FileSystemLoader('templates'))
-    main(environment)
+    main()
