@@ -4,6 +4,7 @@ venv/
 
 # User-specific stuff:
 .idea/
+lastfailed
 
 main.py
 test.html
