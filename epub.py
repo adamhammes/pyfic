@@ -23,7 +23,7 @@ def write_epub(book, title):
 
 def main():
     book = fanfictiondotnet.make_book('https://www.fanfiction.net/s/2636963/2')
-    write_epub(book, 'fanfction.epub')
+    write_epub(book, 'fanfiction.epub')
 
 
 if __name__ == '__main__':
