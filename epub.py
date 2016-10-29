@@ -1,5 +1,6 @@
 from zipfile import ZipFile
-from sources import citadel, fanfictiondotnet
+from sources.worm import worm
+
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -22,8 +23,9 @@ def write_epub(book, title):
 
 
 def main():
-    book = fanfictiondotnet.make_book('https://www.fanfiction.net/s/2636963/2')
-    write_epub(book, 'fanfiction.epub')
+    scraper = worm.Worm()
+    book = scraper.make_book()
+    write_epub(book, 'Worm - Wildbow.epub')
 
 
 if __name__ == '__main__':
