@@ -1,7 +1,7 @@
 from zipfile import ZipFile
-from sources.worm import worm
-
+from sources import Worm, Citadel, FanfictionDotNet
 from jinja2 import Environment, FileSystemLoader
+import sys
 
 
 def write_epub(book, title):
@@ -22,11 +22,22 @@ def write_epub(book, title):
             file.writestr(file_name, html)
 
 
-def main():
-    scraper = worm.Worm()
+def get_matching_scraper(url):
+    scrapers = [Worm(), Citadel(), FanfictionDotNet()]
+    return next(s for s in scrapers if s.matches(url))
+
+
+def generate_file_name(book):
+    return '{0} - {1}.epub'.format(book.title, book.meta['author'])
+
+
+def main(args):
+    url = args[0]
+    scraper = get_matching_scraper(url)
+
     book = scraper.make_book()
-    write_epub(book, 'Worm - Wildbow.epub')
+    write_epub(book, generate_file_name(book))
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
