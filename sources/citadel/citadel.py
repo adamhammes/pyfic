@@ -19,7 +19,7 @@ METADATA = {
 class Citadel(Scraper):
     @staticmethod
     def matches(url):
-        return url.contains('unillustrated.wordpress.com')
+        return 'unillustrated.wordpress.com' in url
 
     @staticmethod
     def generate_links():

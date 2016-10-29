@@ -18,7 +18,7 @@ class Worm(Scraper):
 
     @staticmethod
     def matches(url):
-        return url.contains('parahumans.wordpress.com')
+        return 'parahumans.wordpress.com' in url
 
     @staticmethod
     def contains_link(node):
