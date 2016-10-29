@@ -1,14 +1,15 @@
-import time
-import xml.etree.cElementTree as etree
 from lxml import html
 from sources.tuples import *
+from sources.scraper import Scraper
 from web import web
 
 from .links import links, titles
 
 
-class Worm:
+class Worm(Scraper):
     def __init__(self):
+        super().__init__()
+
         self.TITLE = 'Worm'
 
         self.METADATA = {
@@ -18,10 +19,6 @@ class Worm:
     @staticmethod
     def matches(url):
         return url.contains('parahumans.wordpress.com')
-
-    @staticmethod
-    def elem_tostring(elem):
-        return etree.tostring(elem, encoding='unicode')
 
     @staticmethod
     def contains_link(node):
@@ -41,7 +38,7 @@ class Worm:
     @staticmethod
     def make_pretty(content):
         no_links = (paragraph for paragraph in content if not Worm.is_nav_link(paragraph))
-        stringified = map(Worm.elem_tostring, no_links)
+        stringified = map(Scraper.elem_tostring, no_links)
         return ''.join(stringified)
 
     def make_chapter(self, title, page):
@@ -50,12 +47,8 @@ class Worm:
         prettified = self.make_pretty(paragraphs)
         return Chapter(title, prettified)
 
-    def get_id(self):
-        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
-        return '{0} {1}'.format(self.TITLE, time_str)
-
     def make_book(self):
         pages = web.download_async(links)
         chapters = [self.make_chapter(title, page) for title, page in zip(titles, pages)]
 
-        return Book(self.TITLE, self.get_id(), 'en-US', self.METADATA, chapters)
+        return Book(self.TITLE, self.get_id(), self.LANGUAGE, self.METADATA, chapters)
