@@ -10,7 +10,7 @@ from web import web
 class FanfictionDotNet(Scraper):
     @staticmethod
     def matches(url):
-        return url.contains('fanfiction.net')
+        return 'fanfiction.net' in url
 
     @staticmethod
     def _canonical_url(tree):
