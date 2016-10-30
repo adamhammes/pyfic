@@ -35,6 +35,7 @@ def write_epub(book, file_name):
 
             file.write('templates/cover.html', 'OEBPS/content/cover.html')
 
+
 def get_matching_scraper(url):
     scrapers = [Worm(), Citadel(), FanfictionDotNet(), Pact()]
 
@@ -47,6 +48,7 @@ def get_matching_scraper(url):
 def generate_file_name(book):
     return '{} - {}.epub'.format(book.title, book.meta['author'])
 
+
 def make_book(url):
     scraper = get_matching_scraper(url)
 
@@ -56,6 +58,7 @@ def make_book(url):
     book = scraper.make_book(url)
     write_epub(book, generate_file_name(book))
     return book
+
 
 def main(args):
     url = args[0]
