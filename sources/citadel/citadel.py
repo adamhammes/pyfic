@@ -75,7 +75,6 @@ class Citadel(Scraper):
         text = Citadel.extract_content(tree)
         return Chapter(title, text)
 
-    @staticmethod
     def make_book(self, _):
         """
         Create an up-to-date copy of the book Citadel
