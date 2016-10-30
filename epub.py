@@ -22,6 +22,11 @@ def write_epub(book, title):
             file_name = 'OEBPS/content/Chapter{}.html'.format(i + 1)
             file.writestr(file_name, html)
 
+        if book.cover:
+            image_path = 'OEBPS/content/cover-photo.jpg'
+            file.writestr(image_path, book.cover)
+
+            file.write('templates/cover.html', 'OEBPS/content/cover.html')
 
 def get_matching_scraper(url):
     scrapers = [Worm(), Citadel(), FanfictionDotNet(), Pact()]
