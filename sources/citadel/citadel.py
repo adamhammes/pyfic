@@ -8,7 +8,7 @@ from sources.scraper import Scraper
 from web import web
 
 HOME_PAGE = 'https://unillustrated.wordpress.com/'
-TITLE = 'Citadel: Training in Necessity'
+TITLE = 'Citadel - Training in Necessity'
 TITLE_SELECTOR = '.entry-title'
 
 METADATA = {
