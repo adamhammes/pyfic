@@ -29,7 +29,7 @@ def get_matching_scraper(url):
 
 
 def generate_file_name(book):
-    return '{0} - {1}.epub'.format(book.title, book.meta['author'])
+    return '{} - {}.epub'.format(book.title, book.meta['author'])
 
 def make_book(url):
     scraper = get_matching_scraper(url)
@@ -44,7 +44,7 @@ def main(args):
     book = make_book(url)
     end = time.clock()
 
-    print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end -start))
+    print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end - start))
 
 
 if __name__ == '__main__':

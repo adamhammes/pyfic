@@ -47,7 +47,7 @@ class FanfictionDotNet(Scraper):
         regex = '.*/s/(\d+)'
         story_id = re.search(regex, url).group(0)
         time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
-        return 'fanfiction.net:{0} on {1}'.format(story_id, time_str)
+        return 'fanfiction.net:{} on {}'.format(story_id, time_str)
 
     @staticmethod
     def make_chapter(page):
