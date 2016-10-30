@@ -2,6 +2,7 @@ from zipfile import ZipFile
 from sources import Worm, Citadel, FanfictionDotNet
 from jinja2 import Environment, FileSystemLoader
 import sys
+import time
 
 
 def write_epub(book, title):
@@ -18,7 +19,7 @@ def write_epub(book, title):
 
         for i, chapter in enumerate(book.chapters):
             html = env.get_template('xhtml.jnj').render(chapter=chapter)
-            file_name = 'OEBPS/content/Chapter{0}.html'.format(i + 1)
+            file_name = 'OEBPS/content/Chapter{}.html'.format(i + 1)
             file.writestr(file_name, html)
 
 
@@ -30,13 +31,20 @@ def get_matching_scraper(url):
 def generate_file_name(book):
     return '{0} - {1}.epub'.format(book.title, book.meta['author'])
 
+def make_book(url):
+    scraper = get_matching_scraper(url)
+    book = scraper.make_book(url)
+    write_epub(book, generate_file_name(book))
+    return book
 
 def main(args):
     url = args[0]
-    scraper = get_matching_scraper(url)
 
-    book = scraper.make_book()
-    write_epub(book, generate_file_name(book))
+    start = time.clock()
+    book = make_book(url)
+    end = time.clock()
+
+    print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end -start))
 
 
 if __name__ == '__main__':
