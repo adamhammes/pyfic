@@ -39,7 +39,7 @@ class FanfictionDotNet(Scraper):
     def get_chapter_title(tree):
         regex = '\d+. (.*)'
         title_elem = tree.cssselect('#chap_select option[selected]')[0]
-        return re.search(regex, title_elem.text).group(0)
+        return re.search(regex, title_elem.text).group(1)
 
     @staticmethod
     def get_id(tree):
