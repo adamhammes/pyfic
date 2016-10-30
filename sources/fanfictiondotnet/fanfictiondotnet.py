@@ -3,7 +3,7 @@ import time
 import requests
 from sources.scraper import Scraper
 from lxml import html
-from sources.tuples import Book
+from sources.tuples import Book, Chapter
 from web import web
 
 
@@ -27,14 +27,19 @@ class FanfictionDotNet(Scraper):
         return [url + value for value in chapter_values]
 
     @staticmethod
-    def extract_content(page):
-        tree = html.fromstring(page)
-        nodes = tree.cssselect('#storytext p')
+    def extract_content(tree):
+        nodes = tree.cssselect('.storytext p')
         return ''.join(map(Scraper.elem_tostring, nodes))
 
     @staticmethod
     def get_title(tree):
         return tree.cssselect('#profile_top > b')[0].text
+
+    @staticmethod
+    def get_chapter_title(tree):
+        regex = '\d+. (.*)'
+        title_elem = tree.cssselect('#chap_select option[selected]')[0]
+        return re.search(regex, title_elem.text).group(0)
 
     @staticmethod
     def get_id(tree):
@@ -45,11 +50,17 @@ class FanfictionDotNet(Scraper):
         return 'fanfiction.net:{0} on {1}'.format(story_id, time_str)
 
     @staticmethod
-    def get_author(tree):
-        return tree.cssselect('#profile_top > a')[3].text
+    def make_chapter(page):
+        tree = html.fromstring(page)
+        title = FanfictionDotNet.get_chapter_title(tree)
+        content = FanfictionDotNet.extract_content(tree)
+        return Chapter(title, content)
 
     @staticmethod
-    def make_book(url):
+    def get_author(tree):
+        return tree.cssselect('#profile_top > a:nth-child(5)')[0].text
+
+    def make_book(self, url):
         links = FanfictionDotNet.generate_links(requests.get(url).content)
         pages = web.download_async(links)
         first_tree = html.fromstring(pages[0])
@@ -57,4 +68,5 @@ class FanfictionDotNet(Scraper):
         book_id = FanfictionDotNet.get_id(first_tree)
         meta = {'author': FanfictionDotNet.get_author(first_tree)}
 
-        return Book(title, book_id, 'en-US', meta, pages)
+        chapters = list(map(FanfictionDotNet.make_chapter, pages))
+        return Book(title, book_id, 'en-US', meta, chapters)
