@@ -1,5 +1,5 @@
 from zipfile import ZipFile
-from sources import Worm, Citadel, FanfictionDotNet
+from sources import Worm, Citadel, FanfictionDotNet, Pact
 from jinja2 import Environment, FileSystemLoader
 import sys
 import time
@@ -24,7 +24,7 @@ def write_epub(book, title):
 
 
 def get_matching_scraper(url):
-    scrapers = [Worm(), Citadel(), FanfictionDotNet()]
+    scrapers = [Worm(), Citadel(), FanfictionDotNet(), Pact()]
 
     try:
         return next(s for s in scrapers if s.matches(url))
