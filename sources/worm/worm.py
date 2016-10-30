@@ -47,7 +47,7 @@ class Worm(Scraper):
         prettified = self.make_pretty(paragraphs)
         return Chapter(title, prettified)
 
-    def make_book(self):
+    def make_book(self, _):
         pages = web.download_async(links)
         chapters = [self.make_chapter(title, page) for title, page in zip(titles, pages)]
 

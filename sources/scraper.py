@@ -23,6 +23,6 @@ class Scraper:
         time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
         return '{0} {1}'.format(self.TITLE, time_str)
 
-    def make_book(self):
+    def make_book(self, url):
         raise NotImplementedError()
 

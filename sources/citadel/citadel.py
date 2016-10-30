@@ -76,7 +76,7 @@ class Citadel(Scraper):
         return Chapter(title, text)
 
     @staticmethod
-    def make_book(self):
+    def make_book(self, _):
         """
         Create an up-to-date copy of the book Citadel
         :return: a Book corresponding to what is published online
