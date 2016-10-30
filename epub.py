@@ -25,7 +25,11 @@ def write_epub(book, title):
 
 def get_matching_scraper(url):
     scrapers = [Worm(), Citadel(), FanfictionDotNet()]
-    return next(s for s in scrapers if s.matches(url))
+
+    try:
+        return next(s for s in scrapers if s.matches(url))
+    except StopIteration:
+        return None
 
 
 def generate_file_name(book):
@@ -33,6 +37,10 @@ def generate_file_name(book):
 
 def make_book(url):
     scraper = get_matching_scraper(url)
+
+    if not scraper:
+        return
+
     book = scraper.make_book(url)
     write_epub(book, generate_file_name(book))
     return book
@@ -44,7 +52,10 @@ def main(args):
     book = make_book(url)
     end = time.clock()
 
-    print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end - start))
+    if book:
+        print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end - start))
+    else:
+        print('Could not find any matching scrapers.')
 
 
 if __name__ == '__main__':
