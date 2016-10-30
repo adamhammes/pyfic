@@ -51,4 +51,8 @@ class Worm(Scraper):
         pages = web.download_async(links)
         chapters = [self.make_chapter(title, page) for title, page in zip(titles, pages)]
 
-        return Book(self.TITLE, self.get_id(), self.LANGUAGE, self.METADATA, chapters)
+        cover_location = Scraper.get_relative_path('covers/worm-cover.jpg')
+        with open(cover_location, 'rb') as f:
+            photo = f.read()
+
+        return Book(self.TITLE, self.get_id(), self.LANGUAGE, self.METADATA, chapters, photo)

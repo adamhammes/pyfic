@@ -12,6 +12,10 @@
     </metadata>
     <manifest>
         <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    {% if book.cover %}
+        <item id="cover-photo" href="content/cover-photo.jpg" media-type="image/jpeg"/>
+        <item id="cover" href="content/cover.html" media-type="application/xhtml+xml"/>
+    {% endif %}
     {% for chapter in book.chapters %}
         <item id="Chapter{{ loop.index }}"
               href="content/Chapter{{ loop.index }}.html"
@@ -19,6 +23,9 @@
     {% endfor %}
     </manifest>
     <spine toc="ncx">
+    {% if book.cover %}
+        <itemref idref="cover"/>
+    {% endif %}
     {% for chapter in book.chapters %}
         <itemref idref="Chapter{{ loop.index }}"/>
     {% endfor %}
