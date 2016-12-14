@@ -3,13 +3,10 @@ from sources import Worm, Citadel, FanfictionDotNet, Pact
 from jinja2 import Environment, FileSystemLoader
 import sys
 import time
-import htmlmin
 
 
-def render_minified(env, file_name, **args):
-    unminified = env.get_template(file_name).render(args)
-    return htmlmin.minify(unminified, remove_comments=True, reduce_boolean_attributes=True,
-                          reduce_empty_attributes=True, remove_optional_attribute_quotes=True)
+def render_template(env, file_name, **args):
+    return env.get_template(file_name).render(args)
 
 
 def write_epub(book, file_name):
@@ -18,14 +15,14 @@ def write_epub(book, file_name):
         file.write('templates/mimetype', 'mimetype')
         file.write('templates/container.xml', 'META-INF/container.xml')
 
-        content_opf = render_minified(env, 'content.jnj', book=book)
+        content_opf = render_template(env, 'content.jnj', book=book)
         file.writestr('OEBPS/content.opf', content_opf)
 
-        tox_ncx = render_minified(env, 'tox.jnj', book=book)
+        tox_ncx = render_template(env, 'tox.jnj', book=book)
         file.writestr('OEBPS/toc.ncx', tox_ncx)
 
         for i, chapter in enumerate(book.chapters):
-            chapter_html = render_minified(env, 'xhtml.jnj', chapter=chapter)
+            chapter_html = render_template(env, 'xhtml.jnj', chapter=chapter)
             file_name = 'OEBPS/content/Chapter{}.html'.format(i + 1)
             file.writestr(file_name, chapter_html)
 
