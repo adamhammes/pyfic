@@ -23,7 +23,7 @@ def write_epub(book, file_name):
 
         for i, chapter in enumerate(book.chapters):
             chapter_html = render_template(env, 'xhtml.jnj', chapter=chapter)
-            file_name = 'OEBPS/content/Chapter{:04d}.html'.format(i + 1)
+            file_name = 'OEBPS/content/Chapter{}.html'.format(i + 1)
             file.writestr(file_name, chapter_html)
 
         if book.cover:

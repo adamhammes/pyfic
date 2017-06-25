@@ -7,7 +7,7 @@
         <dc:identifier id="bookid">{{ book.id }}</dc:identifier>
         <dc:language>{{ book.language }}</dc:language>
     {% for name, value in book.meta.items() %}
-        <dc:{{ name }}>{{ value }}</dc:>
+        <dc:{{ name }}>{{ value }}</dc:{{ name }}>
     {% endfor %}
     </metadata>
     <manifest>
