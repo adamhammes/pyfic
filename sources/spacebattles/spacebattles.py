@@ -3,7 +3,7 @@ A module for screen scraping stories found on spacebattles.com
 """
 import requests
 import xml.etree.ElementTree as etree
-from lxml import html
+from lxml import html, sax
 from sources.tuples import Book, Chapter
 from sources.scraper import Scraper
 from web import web
@@ -22,7 +22,7 @@ class Spacebattles(Scraper):
         tree = html.fromstring(page)
 
         base = 'https://forums.spacebattles.com/'
-        anchors = tree.cssselect('.threadmarkList a')
+        anchors = tree.cssselect('.threadmarkListItem a')
         return [(a.text.strip(), base + a.get('href')) for a in anchors]
 
     @staticmethod
@@ -35,20 +35,42 @@ class Spacebattles(Scraper):
             return tree.cssselect('.message')[0]
 
     @staticmethod
+    def _generate_paragraph(contents):
+        sink = sax.ElementTreeContentHandler()
+        sink.startElementNS((None, 'p'), 'p')
+
+        for child in contents:
+            if isinstance(child, html.HtmlElement):
+                sink.startElementNS((None, child.tag), child.tag)
+
+                if child.text:
+                    sink.characters(child.text)
+
+                sink.endElementNS((None, child.tag), child.tag)
+            else:
+                sink.characters(child)
+
+        sink.endElementNS((None, 'p'), 'p')
+        return sink.etree.getroot()
+
+    @staticmethod
     def _extract_content(post):
         message = post.cssselect('.messageContent blockquote')[0]
         text_nodes = message.xpath('child::node()')
 
         cleaned_nodes = []
-
+        current_paragraph = []
         for node in text_nodes:
             if not isinstance(node, html.HtmlElement):
-                text = node.replace('\\n', '').replace('\\t', '')
-                p = etree.Element('p')
-                p.text = str(text.strip())
-                cleaned_nodes.append(p)
-            elif node.tag != 'br':
-                cleaned_nodes.append(node)
+                current_paragraph.append(node.replace('\\n', '').replace('\\t', ''))
+            elif node.tag == 'br':
+                cleaned_nodes.append(Spacebattles._generate_paragraph(current_paragraph))
+                current_paragraph.clear()
+            else:
+                current_paragraph.append(node)
+
+        if current_paragraph:
+            cleaned_nodes.append(Spacebattles._generate_paragraph(current_paragraph))
 
         return ''.join(map(Scraper.elem_tostring, cleaned_nodes))
 
