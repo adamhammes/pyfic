@@ -2,13 +2,14 @@
 A module for screen scraping stories found on spacebattles.com
 """
 import requests
-import xml.etree.ElementTree as etree
 from lxml import html, sax
 from sources.tuples import Book, Chapter
 from sources.scraper import Scraper
 from web import web
 
 FORUM_URL = 'https://forums.spacebattles.com/threads/'
+
+
 class Spacebattles(Scraper):
     @staticmethod
     def matches(url):
