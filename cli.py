@@ -1,14 +1,12 @@
-from sources import *
+import sources
 from epub import epub
 import sys
 import time
 
 
 def get_matching_scraper(url):
-    scrapers = [Worm(), Citadel(), FanfictionDotNet(), Pact(), OrdersOfMagnitude(), Spacebattles()]
-
     try:
-        return next(s for s in scrapers if s.matches(url))
+        return next(s for s in sources.scrapers if s.matches(url))
     except StopIteration:
         return None
 
