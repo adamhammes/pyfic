@@ -1,5 +1,6 @@
 from zipfile import ZipFile
 from jinja2 import Environment, FileSystemLoader
+import string
 
 
 def render_template(env, file_name, **args):
@@ -33,4 +34,11 @@ def write_epub(book):
 
 
 def generate_file_name(book):
-    return '{} - {}.epub'.format(book.title, book.meta['author'])
+    name = '{} - {}.epub'.format(book.title, book.meta['author'])
+    return slugify(name)
+
+
+def slugify(name):
+    stripped = name.strip()
+    valid_chars = '-_.()[] {}{}'.format(string.ascii_letters, string.digits)
+    return ''.join(c for c in stripped if c in valid_chars)
