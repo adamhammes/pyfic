@@ -23,8 +23,12 @@ class FanfictionDotNet(Scraper):
         tree = html.fromstring(page)
         url = FanfictionDotNet._canonical_url(tree)
         option_links = tree.cssselect('#chap_select option')
-        chapter_values = (option.get('value') for option in option_links)
-        return [url + value for value in chapter_values]
+
+        if option_links:
+            chapter_values = (option.get('value') for option in option_links)
+            return [url + value for value in chapter_values]
+
+        return [url]
 
     @staticmethod
     def extract_content(tree):
@@ -38,7 +42,12 @@ class FanfictionDotNet(Scraper):
     @staticmethod
     def get_chapter_title(tree):
         regex = '\d+. (.*)'
-        title_elem = tree.cssselect('#chap_select option[selected]')[0]
+        chap_select = tree.cssselect('#chap_select option[selected]')
+
+        if not chap_select:
+            return 'Chapter 1'
+
+        title_elem = chap_select[0]
         return re.search(regex, title_elem.text).group(1)
 
     @staticmethod
