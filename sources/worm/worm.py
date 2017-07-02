@@ -32,7 +32,7 @@ class Worm(Scraper):
         """
         Returns `True` if the node contains the navigation links to the previous and next chapters.
         """
-        nav_names = ['Next Chapter', 'Previous Chapter', 'Next']
+        nav_names = ['Next Chapter', 'Previous Chapter', 'Next', 'Previous']
         return any(name in node.text_content() for name in nav_names) and Worm.contains_link(node)
 
     @staticmethod
