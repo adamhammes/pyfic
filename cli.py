@@ -32,8 +32,8 @@ def main(args):
     if book:
         print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end - start))
     else:
-        print('Could not find any matching scrapers.')
+        print("Could not find any matching scrapers.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv[1:])

@@ -10,42 +10,42 @@ from web import web
 class FanfictionDotNet(Scraper):
     @staticmethod
     def matches(url):
-        return 'fanfiction.net' in url
+        return "fanfiction.net" in url
 
     @staticmethod
     def _canonical_url(tree):
-        full_link = tree.cssselect('link[rel=canonical]')[0].get('href')
-        regex = '\/\/(www.fanfiction.net\/s/\d+\/)'
-        return 'http://' + re.match(regex, full_link).group(1)
+        full_link = tree.cssselect("link[rel=canonical]")[0].get("href")
+        regex = "\/\/(www.fanfiction.net\/s/\d+\/)"
+        return "http://" + re.match(regex, full_link).group(1)
 
     @staticmethod
     def generate_links(page):
         tree = html.fromstring(page)
         url = FanfictionDotNet._canonical_url(tree)
-        option_links = tree.cssselect('#chap_select option')
+        option_links = tree.cssselect("#chap_select option")
 
         if option_links:
-            chapter_values = (option.get('value') for option in option_links)
+            chapter_values = (option.get("value") for option in option_links)
             return [url + value for value in chapter_values]
 
         return [url]
 
     @staticmethod
     def extract_content(tree):
-        nodes = tree.cssselect('.storytext p')
-        return ''.join(map(Scraper.elem_tostring, nodes))
+        nodes = tree.cssselect(".storytext p")
+        return "".join(map(Scraper.elem_tostring, nodes))
 
     @staticmethod
     def get_title(tree):
-        return tree.cssselect('#profile_top > b')[0].text
+        return tree.cssselect("#profile_top > b")[0].text
 
     @staticmethod
     def get_chapter_title(tree):
-        regex = '\d+. (.*)'
-        chap_select = tree.cssselect('#chap_select option[selected]')
+        regex = "\d+. (.*)"
+        chap_select = tree.cssselect("#chap_select option[selected]")
 
         if not chap_select:
-            return 'Chapter 1'
+            return "Chapter 1"
 
         title_elem = chap_select[0]
         return re.search(regex, title_elem.text).group(1)
@@ -53,10 +53,10 @@ class FanfictionDotNet(Scraper):
     @staticmethod
     def get_id(tree):
         url = FanfictionDotNet._canonical_url(tree)
-        regex = '.*/s/(\d+)'
+        regex = ".*/s/(\d+)"
         story_id = re.search(regex, url).group(0)
-        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
-        return 'fanfiction.net:{} on {}'.format(story_id, time_str)
+        time_str = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+        return "fanfiction.net:{} on {}".format(story_id, time_str)
 
     @staticmethod
     def make_chapter(page):
@@ -67,7 +67,7 @@ class FanfictionDotNet(Scraper):
 
     @staticmethod
     def get_author(tree):
-        return tree.cssselect('#profile_top > a:nth-child(5)')[0].text
+        return tree.cssselect("#profile_top > a:nth-child(5)")[0].text
 
     def make_book(self, url):
         links = FanfictionDotNet.generate_links(requests.get(url).content)
@@ -75,7 +75,7 @@ class FanfictionDotNet(Scraper):
         first_tree = html.fromstring(pages[0])
         title = FanfictionDotNet.get_title(first_tree)
         book_id = FanfictionDotNet.get_id(first_tree)
-        meta = {'author': FanfictionDotNet.get_author(first_tree)}
+        meta = {"author": FanfictionDotNet.get_author(first_tree)}
 
         chapters = list(map(FanfictionDotNet.make_chapter, pages))
-        return Book(title, book_id, 'en-US', meta, chapters)
+        return Book(title, book_id, "en-US", meta, chapters)

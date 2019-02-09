@@ -1,3 +1,3 @@
 from .magnitude import OrdersOfMagnitude
 
-__all__ = ['OrdersOfMagnitude']
+__all__ = ["OrdersOfMagnitude"]

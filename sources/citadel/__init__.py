@@ -1,3 +1,3 @@
 from .citadel import Citadel
 
-__all__ = ['Citadel']
+__all__ = ["Citadel"]

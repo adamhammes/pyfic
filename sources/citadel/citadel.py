@@ -7,19 +7,17 @@ from sources.tuples import Book, Chapter
 from sources.scraper import Scraper
 from web import web
 
-HOME_PAGE = 'https://unillustrated.wordpress.com/'
-TITLE = 'Citadel - Training in Necessity'
-TITLE_SELECTOR = '.entry-title'
+HOME_PAGE = "https://unillustrated.wordpress.com/"
+TITLE = "Citadel - Training in Necessity"
+TITLE_SELECTOR = ".entry-title"
 
-METADATA = {
-    'author': 'Unillustrated'
-}
+METADATA = {"author": "Unillustrated"}
 
 
 class Citadel(Scraper):
     @staticmethod
     def matches(url):
-        return 'unillustrated.wordpress.com' in url
+        return "unillustrated.wordpress.com" in url
 
     @staticmethod
     def generate_links():
@@ -27,12 +25,12 @@ class Citadel(Scraper):
         Find the links for each chapter
         :return: List of strings corresponding to the link for each chapter
         """
-        link_selector = '#linkcat-283635721 a'
+        link_selector = "#linkcat-283635721 a"
 
         page = requests.get(HOME_PAGE)
         tree = html.fromstring(page.content)
         for node in tree.cssselect(link_selector):
-            yield node.get('href')
+            yield node.get("href")
 
     @staticmethod
     def _spanless(node):
@@ -41,7 +39,7 @@ class Citadel(Scraper):
         :param node: Node to check
         :return: True if no children are a span element
         """
-        return all(child.tag != 'span' for child in node)
+        return all(child.tag != "span" for child in node)
 
     @staticmethod
     def extract_content(tree):
@@ -50,9 +48,9 @@ class Citadel(Scraper):
         :param tree: The lxml tree object corresponding to the chapter
         :return: A string containing the html of the content
         """
-        content_selector = '.entry-content p'
+        content_selector = ".entry-content p"
         nodes = filter(Citadel._spanless, tree.cssselect(content_selector))
-        return ''.join(map(Scraper.elem_tostring, nodes))
+        return "".join(map(Scraper.elem_tostring, nodes))
 
     @staticmethod
     def extract_title(tree):
@@ -82,4 +80,4 @@ class Citadel(Scraper):
         """
         pages = web.download_async(Citadel.generate_links())
         chapters = [Citadel.make_chapter(page) for page in pages]
-        return Book(TITLE, self.get_id(), 'en-US', METADATA, chapters)
+        return Book(TITLE, self.get_id(), "en-US", METADATA, chapters)

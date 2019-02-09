@@ -7,5 +7,11 @@ from .spacebattles import Spacebattles
 from .twig import Twig
 
 scrapers = [
-    Worm(), FanfictionDotNet(), Citadel(), Pact(), OrdersOfMagnitude(), Spacebattles(), Twig()
+    Worm(),
+    FanfictionDotNet(),
+    Citadel(),
+    Pact(),
+    OrdersOfMagnitude(),
+    Spacebattles(),
+    Twig(),
 ]

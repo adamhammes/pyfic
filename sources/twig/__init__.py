@@ -1,3 +1,3 @@
 from .twig import Twig
 
-__all__ = 'Twig'
+__all__ = "Twig"
