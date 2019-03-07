@@ -15,9 +15,7 @@ async def get(client, url):
 
 async def spawn_tasks(links):
     async with aiohttp.ClientSession() as client:
-        tasks = [get(client, link) for link in links]
-        combined = await asyncio.gather(*tasks)
-        return combined
+        return await asyncio.gather(*[get(client, link) for link in links])
 
 
 def download_async(links):
