@@ -1,0 +1,1 @@
+from .practicalguidetoevil import PracticalGuideToEvil
