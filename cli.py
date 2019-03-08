@@ -18,7 +18,7 @@ def make_book(url):
         return
 
     book = scraper.make_book(url)
-    epub.write_epub(book)
+    epub.write_epub(book, "output")
     return book
 
 

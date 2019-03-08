@@ -1,17 +1,20 @@
-from zipfile import ZipFile
-from jinja2 import Environment, FileSystemLoader
+import os
 import string
+from zipfile import ZipFile
+
+from jinja2 import Environment, FileSystemLoader
 
 
 def render_template(env, file_name, **args):
     return env.get_template(file_name).render(args)
 
 
-def write_epub(book):
+def write_epub(book, path=""):
     env = Environment(loader=FileSystemLoader("epub"))
     file_name = generate_file_name(book)
+    file_path = os.path.join(path, file_name)
 
-    with ZipFile(file_name, "w") as file:
+    with ZipFile(file_path, "w") as file:
         file.write("epub/mimetype", "mimetype")
         file.write("epub/container.xml", "META-INF/container.xml")
 
