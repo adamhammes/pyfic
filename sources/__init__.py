@@ -9,6 +9,8 @@ from .practicalguidetoevil import PracticalGuideToEvil
 from .spacebattles import Spacebattles
 from .twig import Twig
 from .worm import Worm
+from .worththecandle import WorthTheCandle
+
 
 scrapers = [
     Worm(),
@@ -20,4 +22,5 @@ scrapers = [
     Twig(),
     FanficsMe(),
     PracticalGuideToEvil(),
+    WorthTheCandle(),
 ]
