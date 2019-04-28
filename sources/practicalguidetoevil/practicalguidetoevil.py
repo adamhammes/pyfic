@@ -34,7 +34,6 @@ class PracticalGuideToEvil(Scraper):
         meta = {"author": "ErraticErrata"}
         title = f"A Practical Guide to Evil - Book {book_num}"
         chapter_links = PracticalGuideToEvil.get_chapter_links(toc_tree, book_num)
-        print(chapter_links)
         chapter_pages = web.download_async(chapter_links)
         chapters = list(map(PracticalGuideToEvil.make_chapter, chapter_pages))
 
