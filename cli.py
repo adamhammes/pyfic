@@ -25,9 +25,9 @@ def make_book(url):
 def main(args):
     url = args[0]
 
-    start = time.clock()
+    start = time.time()
     book = make_book(url)
-    end = time.clock()
+    end = time.time()
 
     if book:
         print('Downloaded "{}" in {:.2f} seconds.'.format(book.title, end - start))
