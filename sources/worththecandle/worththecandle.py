@@ -5,7 +5,7 @@ from sources.tuples import Book, Chapter
 from sources.scraper import Scraper
 
 BOOK_URL = "https://archiveofourown.org/works/11478249/chapters/"
-ending_chapters = [0, 14, 33, 52, 104, 137]
+ending_chapters = [0, 14, 33, 52, 75, 105, 138]
 
 
 class WorthTheCandle(Scraper):
