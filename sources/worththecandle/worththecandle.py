@@ -56,4 +56,3 @@ class WorthTheCandle(Scraper):
         meta = {"author": "cthulhuraejepsen"}
         title = f"Worth the Candle - Book {book_num}"
         return Book(title, title, "en-US", meta, chapters)
-

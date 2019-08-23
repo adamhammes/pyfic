@@ -38,4 +38,3 @@ class PracticalGuideToEvil(Scraper):
         chapters = list(map(PracticalGuideToEvil.make_chapter, chapter_pages))
 
         return Book(title, title, "en-US", meta, chapters)
-
