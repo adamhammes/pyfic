@@ -14,7 +14,9 @@ async def get(client, url):
 
 
 async def spawn_tasks(links):
-    async with aiohttp.ClientSession() as client:
+    async with aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(verify_ssl=False)
+    ) as client:
         return await asyncio.gather(*[get(client, link) for link in links])
 
 
