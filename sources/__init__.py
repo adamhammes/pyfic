@@ -10,6 +10,7 @@ from .royalroad import RoyalRoadScraper
 from .spacebattles import Spacebattles
 from .twig import Twig
 from .worm import Worm
+from .wanderinginn import WanderingInn
 from .worththecandle import WorthTheCandle
 
 
@@ -25,4 +26,5 @@ scrapers = [
     PracticalGuideToEvil(),
     RoyalRoadScraper(),
     WorthTheCandle(),
+    WanderingInn()
 ]
