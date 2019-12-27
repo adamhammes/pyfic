@@ -26,8 +26,17 @@ class WanderingInn(Scraper):
         tree = html.fromstring(page)
         title = tree.cssselect(".entry-title")[0].text
 
-        paragraphs = tree.cssselect(".entry-content p")
-        paragraphs = [p for p in paragraphs if p.text and not p.text.isspace()]
+        paragraphs = tree.cssselect(".entry-content > *")
+        paragraphs = [p for p in paragraphs if not p.text_content().isspace()]
+
+        for p in paragraphs:
+            spans = p.cssselect("span")
+            [span.attrib.pop("style", None) for span in spans]
+
+        last_node_text = paragraphs[-1].text_content()
+        if "Previous Chapter" in last_node_text or "Next Chapter" in last_node_text:
+            paragraphs = paragraphs[:-2]
+
         content = "".join(map(Scraper.elem_tostring, paragraphs))
 
         return Chapter(title=title, text=content)
