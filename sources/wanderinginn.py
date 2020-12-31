@@ -24,6 +24,14 @@ class WanderingInn(Scraper):
     @staticmethod
     def make_chapter(page):
         tree = html.fromstring(page)
+
+        for comment in tree.xpath("//comment()"):
+            # There are some HTML comments in 7.25 (search "There were…she counted.")
+            # that break lxml's tostring method. We'll get rid of them here.
+            parent = comment.getparent()
+            if parent is not None:
+                parent.remove(comment)
+
         title = tree.cssselect(".entry-title")[0].text
 
         paragraphs = tree.cssselect(".entry-content > *")
@@ -37,9 +45,13 @@ class WanderingInn(Scraper):
         if "Previous Chapter" in last_node_text or "Next Chapter" in last_node_text:
             paragraphs = paragraphs[:-2]
 
-        content = "".join(map(Scraper.elem_tostring, paragraphs))
 
-        return Chapter(title=title, text=content)
+        try:
+            content = "".join(map(Scraper.elem_tostring, paragraphs))
+            return Chapter(title=title, text=content)
+        except Exception:
+            print('here')
+
 
     def make_book(self, url):
         book_num = int(url.split("-")[1])
